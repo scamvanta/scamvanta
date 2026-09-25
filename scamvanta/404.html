@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="This ScamVanta page could not be found. Return to the training app.">
+  <title>Page not found — ScamVanta</title>
+  <style>html{color-scheme:dark}body{margin:0;background:#0b1220;color:#edf3fc;font:18px/1.7 system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}main{max-width:580px;padding:32px}h1{font-size:clamp(2rem,7vw,3.5rem);line-height:1.1}p{color:#aabbd2}a{display:inline-block;background:#5de2dc;color:#072628;font-weight:700;text-decoration:none;padding:13px 22px;border-radius:9px}a:focus-visible{outline:3px solid #edf3fc;outline-offset:5px}.label{color:#5de2dc;letter-spacing:.12em;font-size:14px}</style>
+</head>
+<body>
+  <main><p class="label">SCAMVANTA · 404</p><h1>This trail ends here.</h1><p>The page may have moved, or the address may be mistyped. Your training progress stays in this browser.</p><a id="home-link" href="./index.html">Return to ScamVanta</a><p>ScamVanta screens use the navigation inside the app. You don’t need a separate page address for each lesson.</p></main>
+  <script>
+    // Recover the project root even when GitHub serves this page for a nested URL.
+    const marker = '/scamvanta/';
+    const position = location.pathname.indexOf(marker);
+    if (position >= 0) document.getElementById('home-link').href = location.pathname.slice(0, position + marker.length) + 'index.html';
+    else if (location.hostname.endsWith('.github.io')) document.getElementById('home-link').href = '/scamvanta/';
+  </script>
+</body>
+</html>
