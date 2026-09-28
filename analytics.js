@@ -10,7 +10,8 @@
   const lessons = ['overview','urgency','secrets','sender','domains','attachments','payments','offers','impersonation','procedures','verify'];
   const screens = ['home','categories','quiz','results','progress','learn','how','about'];
   let allowed = false, ready = false, loading = false, failed = false, queue = [], currentScreen = null;
-  try { allowed = localStorage.getItem(key) === 'allowed'; } catch { /* In-memory choice only. */ }
+  let choice = null;
+  try { choice = localStorage.getItem(key); allowed = choice === 'allowed'; } catch { /* In-memory choice only. */ }
   function permitted() { return configured && allowed && !protectedBrowser && !failed; }
   function gtag() { window.dataLayer.push(arguments); }
   // Only known enum values and bounded numbers can leave this boundary.
@@ -72,16 +73,31 @@
   const status = document.getElementById('analytics-status');
   const accept = document.getElementById('analytics-allow');
   const decline = document.getElementById('analytics-decline');
+  const banner = document.getElementById('analytics-banner');
   function update() {
+    if (banner) banner.hidden = !configured || protectedBrowser || ['allowed','denied'].includes(choice);
     status.textContent = !configured ? 'Optional analytics is not configured. No analytics data is sent.' : protectedBrowser ? 'Analytics is off because your browser requests privacy.' : allowed ? 'Optional analytics is allowed. You can turn it off at any time.' : 'Optional analytics is off. You can choose to share usage statistics.';
     accept.hidden = !configured || protectedBrowser || allowed;
     decline.hidden = !configured || protectedBrowser || !allowed;
   }
-  accept.addEventListener('click', () => {
-    allowed = true; failed = false;
+  function allowStatistics() {
+    allowed = true; choice = 'allowed'; failed = false;
     try { localStorage.setItem(key, 'allowed'); } catch {}
     update(); load(); currentScreen = null;
     const [route, topic] = location.hash.slice(1).split('/'); screen(route, topic);
+  }
+  accept.addEventListener('click', allowStatistics);
+  document.getElementById('banner-allow')?.addEventListener('click', () => {
+    allowStatistics(); document.getElementById('main').focus();
+  });
+  document.getElementById('banner-decline')?.addEventListener('click', () => {
+    choice = 'denied'; allowed = false; queue = [];
+    try { localStorage.setItem(key, 'denied'); } catch {}
+    update(); document.getElementById('main').focus();
+  });
+  document.getElementById('banner-details')?.addEventListener('click', () => {
+    const privacy = document.getElementById('analytics-privacy');
+    privacy.focus(); privacy.scrollIntoView({block:'start'});
   });
   decline.addEventListener('click', () => {
     allowed = false; queue = [];

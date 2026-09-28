@@ -962,3 +962,11 @@ main>* {
     transition:none!important;
   }
 }
+
+/* In-flow notice: visible at arrival without covering training controls. */
+.analytics-banner { margin: 16px auto; padding: 18px; max-width: 1100px; width: calc(100% - 32px); box-sizing: border-box; border: 1px solid currentColor; border-radius: 12px; }
+.analytics-banner[hidden] { display: none; }
+.analytics-banner p { margin: 8px 0 14px; line-height: 1.5; }
+.analytics-banner .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.analytics-banner .button.secondary { flex: 1 1 160px; }
+#analytics-privacy { scroll-margin-top: 100px; }
